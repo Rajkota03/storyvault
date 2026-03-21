@@ -1342,82 +1342,38 @@
                     <div class="forge-subtitle">Intelligent Fusion Premise Architect</div>
                 </div>
 
-                <!-- Filter: Genre -->
+                <!-- Filter: Genre & Sub-Genre -->
                 <div class="forge-source-section">
                     <div class="forge-source-header">
                         <div class="forge-source-number src-premise">1</div>
-                        <div class="forge-source-label">Genre</div>
+                        <div class="forge-source-label">Genre & Sub-Genre</div>
                     </div>
+                    <div class="forge-source-desc">Pick one. The AI handles the rest.</div>
                     <div class="forge-tags" id="forge-tags-genre"></div>
                 </div>
 
-                <!-- Filter: Tone -->
+                <!-- Filter: Budget Range -->
                 <div class="forge-source-section">
                     <div class="forge-source-header">
-                        <div class="forge-source-number src-psych">2</div>
-                        <div class="forge-source-label">Tone</div>
+                        <div class="forge-source-number src-pressure">2</div>
+                        <div class="forge-source-label">Budget Range</div>
                     </div>
-                    <div class="forge-tags" id="forge-tags-tone"></div>
-                </div>
-
-                <!-- Filter: Budget Scale -->
-                <div class="forge-source-section">
-                    <div class="forge-source-header">
-                        <div class="forge-source-number src-pressure">3</div>
-                        <div class="forge-source-label">Budget Scale</div>
-                    </div>
-                    <div class="forge-source-desc">Controls location count, VFX scope, and cast size constraints.</div>
+                    <div class="forge-source-desc">Controls locations, cast size, VFX scope, and production constraints.</div>
                     <div class="forge-tags" id="forge-tags-budget"></div>
                 </div>
 
                 <!-- Filter: High-Concept Meter -->
                 <div class="forge-source-section">
                     <div class="forge-source-header">
-                        <div class="forge-source-number src-wild">4</div>
+                        <div class="forge-source-number src-wild">3</div>
                         <div class="forge-source-label">High-Concept Meter</div>
                     </div>
                     <div class="forge-source-desc">How wild and elevator-pitch-friendly do you want the premise?</div>
                     <div class="forge-tags" id="forge-tags-concept"></div>
                 </div>
 
-                <!-- Filter: Setting -->
-                <div class="forge-source-section">
-                    <div class="forge-source-header">
-                        <div class="forge-source-number src-premise">5</div>
-                        <div class="forge-source-label">Setting</div>
-                    </div>
-                    <div class="forge-tags" id="forge-tags-setting"></div>
-                </div>
-
-                <!-- Filter: Era -->
-                <div class="forge-source-section">
-                    <div class="forge-source-header">
-                        <div class="forge-source-number src-psych">6</div>
-                        <div class="forge-source-label">Era</div>
-                    </div>
-                    <div class="forge-tags" id="forge-tags-era"></div>
-                </div>
-
-                <!-- Filter: Protagonist Type -->
-                <div class="forge-source-section">
-                    <div class="forge-source-header">
-                        <div class="forge-source-number src-pressure">7</div>
-                        <div class="forge-source-label">Protagonist Type</div>
-                    </div>
-                    <div class="forge-tags" id="forge-tags-protagonist"></div>
-                </div>
-
-                <!-- Filter: Core Conflict -->
-                <div class="forge-source-section">
-                    <div class="forge-source-header">
-                        <div class="forge-source-number src-wild">8</div>
-                        <div class="forge-source-label">Core Conflict</div>
-                    </div>
-                    <div class="forge-tags" id="forge-tags-conflict"></div>
-                </div>
-
                 <!-- Action Bar -->
-                <div class="forge-counter" id="forge-counter"><span>0</span> filters selected (min 1)</div>
+                <div class="forge-counter" id="forge-counter"><span>0</span> / 3 selected</div>
                 <div class="forge-action-bar">
                     <button class="forge-btn forge-btn-primary" id="forge-btn-generate"
                         onclick="forge.generate()" disabled>FORGE CONCEPT</button>
@@ -2030,27 +1986,24 @@
         const FORGE_FILTERS = {
             genre: {
                 options: [
+                    // Core Genres
                     'Drama', 'Comedy', 'Thriller', 'Horror', 'Romance', 'Action', 'Sci-Fi', 'Fantasy',
                     'Mystery', 'Crime', 'War', 'Musical', 'Noir', 'Satire', 'Western',
-                    'Horror-Comedy', 'Romantic Comedy', 'Political Thriller', 'Psychological Thriller',
-                    'Legal Drama', 'Medical Drama', 'Sports Drama', 'Heist', 'Espionage',
-                    'Survival', 'Supernatural', 'Gothic', 'Cyberpunk', 'Post-Apocalyptic',
-                    'Dark Comedy', 'Tragicomedy', 'Coming-of-Age', 'Revenge', 'Gangster',
-                    'Neo-Noir', 'Period Drama', 'Historical Epic', 'Arthouse', 'True Crime',
-                    'Mockumentary', 'Found Footage', 'Folk Horror', 'Body Horror', 'Slasher',
-                    'Space Opera', 'Hard Sci-Fi', 'Time Travel', 'Kaiju', 'Samurai',
-                    'Martial Arts', 'Road Movie', 'Buddy Film', 'Courtroom', 'Prison Drama'
-                ]
-            },
-            tone: {
-                options: [
-                    'Dark & Gritty', 'Light & Funny', 'Bittersweet', 'Absurdist', 'Tense & Paranoid',
-                    'Warm & Nostalgic', 'Cold & Clinical', 'Dreamy & Surreal', 'Raw & Unflinching',
-                    'Epic & Grand', 'Intimate & Quiet', 'Cynical & Sharp', 'Brooding & Atmospheric',
-                    'Frenetic & Chaotic', 'Campy & Over-the-Top', 'Meditative & Slow-Burn',
-                    'Darkly Comic', 'Operatic & Melodramatic', 'Visceral & Intense',
-                    'Heartbreaking', 'Quirky & Offbeat', 'Swaggering & Cool',
-                    'Eerie & Unsettling', 'Hopeful & Uplifting', 'Bleak & Nihilistic'
+                    // Sub-Genres
+                    'Horror-Comedy', 'Romantic Comedy', 'Dark Comedy', 'Tragicomedy', 'Screwball Comedy',
+                    'Political Thriller', 'Psychological Thriller', 'Techno-Thriller', 'Eco-Thriller', 'Erotic Thriller',
+                    'Legal Drama', 'Medical Drama', 'Sports Drama', 'Period Drama', 'Family Drama',
+                    'Heist', 'Espionage', 'Gangster', 'Prison Drama', 'Courtroom',
+                    'Survival', 'Disaster', 'Post-Apocalyptic', 'Dystopian',
+                    'Supernatural', 'Gothic', 'Folk Horror', 'Body Horror', 'Slasher', 'Found Footage',
+                    'Cyberpunk', 'Steampunk', 'Space Opera', 'Hard Sci-Fi', 'Time Travel', 'Alien Invasion',
+                    'Neo-Noir', 'Film Noir', 'Whodunit',
+                    'Coming-of-Age', 'Road Movie', 'Buddy Film', 'Revenge',
+                    'Historical Epic', 'Sword & Sorcery', 'Martial Arts', 'Samurai', 'Pirate',
+                    'Mockumentary', 'Docudrama', 'True Crime', 'Biographical',
+                    'Arthouse', 'Mumblecore', 'Experimental',
+                    'Bollywood Masala', 'Telugu Mass', 'K-Drama Style',
+                    'Kaiju', 'Vampire', 'Zombie', 'Fairy Tale', 'Mythology'
                 ]
             },
             budget: {
@@ -2064,54 +2017,11 @@
             },
             concept: {
                 options: [
-                    'Grounded Realism (No genre gimmick, pure human drama)',
-                    'Slightly Elevated (One unusual twist on a real situation)',
-                    'High Concept (Clear "what if" premise, easy elevator pitch)',
-                    'Extreme High Concept (Wild premise, genre-bending, rule-of-the-world)',
+                    'Grounded Realism (Pure human drama, no gimmick)',
+                    'Slightly Elevated (One unusual twist on reality)',
+                    'High Concept (Clear "what if", easy elevator pitch)',
+                    'Extreme High Concept (Wild premise, genre-bending)',
                     'Batshit Insane (Maximum weirdness, maximum hook)'
-                ]
-            },
-            setting: {
-                options: [
-                    'Small Village', 'Bustling Metropolis', 'Coastal Town', 'Desert', 'Mountain',
-                    'Suburban', 'Island', 'Space Station', 'Underground', 'War Zone',
-                    'College Campus', 'Corporate Office', 'Prison', 'Hospital', 'Ancient Ruins',
-                    'Dystopian City', 'Haunted Mansion', 'Ship / Submarine', 'Train',
-                    'Jungle / Wilderness', 'Arctic', 'Farm / Rural', 'Casino',
-                    'Courtroom', 'Police Station', 'Restaurant Kitchen', 'Tech Startup',
-                    'Medieval Castle', 'Indian Bazaar', 'Tokyo', 'Mumbai', 'New York',
-                    'Mars Colony', 'Virtual Reality', 'Post-War Ruins', 'Border Town'
-                ]
-            },
-            era: {
-                options: [
-                    'Ancient / Mythological', 'Medieval', 'Renaissance', 'Colonial Era',
-                    'Victorian', 'World War I', 'World War II', '1950s', '1970s', '1990s',
-                    'Present Day', 'Near Future', 'Far Future', 'Timeless / Fable',
-                    'Alternate History', 'Multiple Timelines'
-                ]
-            },
-            protagonist: {
-                options: [
-                    'Unlikely Hero', 'Anti-Hero', 'Fallen Leader', 'Outsider / Misfit',
-                    'Ordinary Person in Chaos', 'Child / Coming-of-Age', 'Elderly Sage',
-                    'Con Artist', 'Idealist', 'Reluctant Warrior', 'Artist / Creator',
-                    'Working Class Survivor', 'Corrupt Power Broker', 'Duo / Buddy Pair',
-                    'Disgraced Cop', 'Whistleblower', 'Immigrant / Refugee', 'War Veteran',
-                    'Scientist', 'Journalist', 'Single Parent', 'Hacker', 'Street Kid',
-                    'Villain Protagonist', 'Wrongfully Accused', 'Double Agent',
-                    'Terminally Ill', 'Amnesiac', 'Robot / AI'
-                ]
-            },
-            conflict: {
-                options: [
-                    'Man vs. Self', 'Man vs. Man', 'Man vs. Society', 'Man vs. Nature',
-                    'Man vs. Technology', 'Betrayal & Revenge', 'Forbidden Love',
-                    'Power Struggle', 'Survival Against Odds', 'Identity Crisis',
-                    'Moral Dilemma', 'Class War', 'Family Feud', 'Redemption Arc',
-                    'Escape / Freedom', 'Obsession & Madness', 'Conspiracy Unraveling',
-                    'Race Against Time', 'Heist Gone Wrong', 'Siege / Last Stand',
-                    'Succession Crisis', 'Generational Trauma', 'Addiction & Recovery'
                 ]
             }
         };
@@ -2179,7 +2089,7 @@ Avoid generic templates.`;
 
             updateState() {
                 const count = Object.keys(this.selections).length;
-                document.getElementById('forge-counter').innerHTML = `<span>${count}</span> filters selected (min 1)`;
+                document.getElementById('forge-counter').innerHTML = `<span>${count}</span> / 3 selected`;
                 const btn = document.getElementById('forge-btn-generate');
                 btn.disabled = count < 1;
                 btn.textContent = this.isGenerating ? 'FORGING...' : 'FORGE CONCEPT';
@@ -2187,8 +2097,7 @@ Avoid generic templates.`;
 
             buildPrompt() {
                 const labels = {
-                    genre: 'Genre', tone: 'Tone', budget: 'Budget Scale', concept: 'High-Concept Level',
-                    setting: 'Setting', era: 'Era', protagonist: 'Protagonist Type', conflict: 'Core Conflict'
+                    genre: 'Genre / Sub-Genre', budget: 'Budget Range', concept: 'High-Concept Level'
                 };
 
                 let params = '';
