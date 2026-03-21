@@ -760,6 +760,408 @@
         .dot-other {
             background-color: var(--text-muted);
         }
+
+        /* ===== STORY FORGE MODULE ===== */
+        #screen-forge {
+            background: #0A0A0C;
+            padding-bottom: calc(70px + var(--safe-bottom));
+        }
+        #screen-forge * { box-sizing: border-box; }
+
+        .forge-scroll {
+            padding: 1.5rem;
+            padding-bottom: 2rem;
+            max-width: 860px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .forge-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding-top: 0.5rem;
+        }
+        .forge-brand {
+            font-family: Georgia, 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #E8C547 0%, #F0D96B 50%, #E8C547 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 3px;
+        }
+        .forge-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 0.25rem;
+        }
+
+        /* Fusion Source Sections */
+        .forge-source-section {
+            margin-bottom: 1.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 1.25rem;
+        }
+        .forge-source-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+        .forge-source-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+        .forge-source-number.src-premise {
+            background: rgba(232, 197, 71, 0.15);
+            color: #E8C547;
+        }
+        .forge-source-number.src-psych {
+            background: rgba(100, 180, 255, 0.15);
+            color: #64B4FF;
+        }
+        .forge-source-number.src-pressure {
+            background: rgba(255, 100, 100, 0.15);
+            color: #FF6464;
+        }
+        .forge-source-number.src-wild {
+            background: rgba(180, 130, 255, 0.15);
+            color: #B482FF;
+        }
+        .forge-source-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        .forge-source-desc {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.25);
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+        .forge-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+        }
+        .forge-tag {
+            padding: 0.4rem 0.85rem;
+            border-radius: 20px;
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.45);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        .forge-tag:hover {
+            border-color: rgba(232, 197, 71, 0.3);
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .forge-tag.selected {
+            border-color: #E8C547;
+            color: #E8C547;
+            background: rgba(232, 197, 71, 0.08);
+            box-shadow: 0 0 12px rgba(232, 197, 71, 0.1);
+        }
+        .forge-selected-display {
+            margin-top: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 10px;
+            background: rgba(232, 197, 71, 0.05);
+            border: 1px solid rgba(232, 197, 71, 0.15);
+            display: none;
+        }
+        .forge-selected-display.active {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .forge-selected-name {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #E8C547;
+        }
+        .forge-selected-clear {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            padding: 2px 6px;
+        }
+        .forge-selected-clear:hover { color: #FF6464; }
+
+        /* Action Bar */
+        .forge-action-bar {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0 1rem;
+        }
+        .forge-btn {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border-radius: 30px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        .forge-btn-primary {
+            background: linear-gradient(135deg, #E8C547, #D4A017);
+            color: #0A0A0C;
+        }
+        .forge-btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(232, 197, 71, 0.3);
+        }
+        .forge-btn-primary:disabled {
+            background: #333;
+            color: #666;
+            cursor: not-allowed;
+        }
+        .forge-btn-clear {
+            flex: 0;
+            background: transparent;
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.4);
+            padding: 1rem 1.5rem;
+            white-space: nowrap;
+        }
+        .forge-btn-clear:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .forge-counter {
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.25);
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .forge-counter span { color: #E8C547; }
+
+        /* Loading */
+        .forge-loading {
+            text-align: center;
+            padding: 3rem 1rem;
+            display: none;
+        }
+        .forge-loading.active { display: block; }
+        .forge-spinner {
+            width: 28px;
+            height: 28px;
+            border: 3px solid rgba(232, 197, 71, 0.2);
+            border-top-color: #E8C547;
+            border-radius: 50%;
+            animation: forge-spin 0.8s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        @keyframes forge-spin { to { transform: rotate(360deg); } }
+        .forge-loading-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.35);
+            letter-spacing: 2px;
+        }
+
+        /* Error */
+        .forge-error {
+            border: 1.5px solid rgba(255, 80, 80, 0.4);
+            border-radius: 16px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+        .forge-error.active { display: block; }
+        .forge-error-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: rgba(255, 80, 80, 0.8);
+        }
+
+        /* Result: 7-Step Output */
+        .forge-result {
+            display: none;
+            animation: forge-fade-up 0.6s ease-out;
+        }
+        .forge-result.active { display: block; }
+        @keyframes forge-fade-up {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .forge-result-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(232, 197, 71, 0.3), transparent);
+            margin: 2rem 0;
+        }
+
+        /* Step blocks */
+        .forge-step {
+            margin-bottom: 2rem;
+        }
+        .forge-step-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+        }
+        .forge-step-num {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #E8C547;
+            background: rgba(232, 197, 71, 0.1);
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+        .forge-step-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+        .forge-step-body {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.75;
+            white-space: pre-wrap;
+        }
+
+        /* Logline highlight (Step 4) */
+        .forge-logline-box {
+            font-family: Georgia, 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: #E8C547;
+            line-height: 1.6;
+            padding: 1.25rem;
+            border-left: 3px solid rgba(232, 197, 71, 0.4);
+            background: rgba(232, 197, 71, 0.03);
+            border-radius: 0 12px 12px 0;
+        }
+
+        /* Working title */
+        .forge-working-title {
+            font-family: Georgia, 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #FFFFFF;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        /* Theme box (Step 6) */
+        .forge-theme-box {
+            border: 1.5px solid rgba(232, 197, 71, 0.2);
+            border-radius: 12px;
+            padding: 1.25rem;
+            background: rgba(232, 197, 71, 0.02);
+        }
+        .forge-theme-box .forge-step-body {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+        }
+
+        /* Production check (Step 7) */
+        .forge-prod-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+        .forge-prod-box .forge-step-body {
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 0.85rem;
+        }
+
+        /* Raw fallback */
+        .forge-result-raw {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.7;
+            white-space: pre-wrap;
+            padding: 1.25rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        /* Reforge bar */
+        .forge-reforge-bar {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+        .forge-btn-reforge {
+            flex: 1;
+            padding: 0.85rem;
+            border-radius: 30px;
+            border: 1.5px solid rgba(232, 197, 71, 0.3);
+            background: transparent;
+            color: #E8C547;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .forge-btn-reforge:hover {
+            background: rgba(232, 197, 71, 0.08);
+            border-color: #E8C547;
+        }
+        .forge-btn-save-idea {
+            flex: 1;
+            padding: 0.85rem;
+            border-radius: 30px;
+            border: 1.5px solid rgba(155, 192, 179, 0.3);
+            background: transparent;
+            color: var(--accent-mint);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .forge-btn-save-idea:hover {
+            background: rgba(155, 192, 179, 0.08);
+            border-color: var(--accent-mint);
+        }
     </style>
 </head>
 
@@ -932,6 +1334,125 @@
             </div>
         </div>
 
+        <!-- Screen: Story Forge -->
+        <div id="screen-forge" class="screen">
+            <div class="forge-scroll">
+                <div class="forge-header">
+                    <div class="forge-brand">STORY FORGE</div>
+                    <div class="forge-subtitle">Intelligent Fusion Premise Architect</div>
+                </div>
+
+                <!-- Filter: Genre -->
+                <div class="forge-source-section">
+                    <div class="forge-source-header">
+                        <div class="forge-source-number src-premise">1</div>
+                        <div class="forge-source-label">Genre</div>
+                    </div>
+                    <div class="forge-tags" id="forge-tags-genre"></div>
+                </div>
+
+                <!-- Filter: Tone -->
+                <div class="forge-source-section">
+                    <div class="forge-source-header">
+                        <div class="forge-source-number src-psych">2</div>
+                        <div class="forge-source-label">Tone</div>
+                    </div>
+                    <div class="forge-tags" id="forge-tags-tone"></div>
+                </div>
+
+                <!-- Filter: Budget Scale -->
+                <div class="forge-source-section">
+                    <div class="forge-source-header">
+                        <div class="forge-source-number src-pressure">3</div>
+                        <div class="forge-source-label">Budget Scale</div>
+                    </div>
+                    <div class="forge-source-desc">Controls location count, VFX scope, and cast size constraints.</div>
+                    <div class="forge-tags" id="forge-tags-budget"></div>
+                </div>
+
+                <!-- Filter: High-Concept Meter -->
+                <div class="forge-source-section">
+                    <div class="forge-source-header">
+                        <div class="forge-source-number src-wild">4</div>
+                        <div class="forge-source-label">High-Concept Meter</div>
+                    </div>
+                    <div class="forge-source-desc">How wild and elevator-pitch-friendly do you want the premise?</div>
+                    <div class="forge-tags" id="forge-tags-concept"></div>
+                </div>
+
+                <!-- Filter: Setting -->
+                <div class="forge-source-section">
+                    <div class="forge-source-header">
+                        <div class="forge-source-number src-premise">5</div>
+                        <div class="forge-source-label">Setting</div>
+                    </div>
+                    <div class="forge-tags" id="forge-tags-setting"></div>
+                </div>
+
+                <!-- Filter: Era -->
+                <div class="forge-source-section">
+                    <div class="forge-source-header">
+                        <div class="forge-source-number src-psych">6</div>
+                        <div class="forge-source-label">Era</div>
+                    </div>
+                    <div class="forge-tags" id="forge-tags-era"></div>
+                </div>
+
+                <!-- Filter: Protagonist Type -->
+                <div class="forge-source-section">
+                    <div class="forge-source-header">
+                        <div class="forge-source-number src-pressure">7</div>
+                        <div class="forge-source-label">Protagonist Type</div>
+                    </div>
+                    <div class="forge-tags" id="forge-tags-protagonist"></div>
+                </div>
+
+                <!-- Filter: Core Conflict -->
+                <div class="forge-source-section">
+                    <div class="forge-source-header">
+                        <div class="forge-source-number src-wild">8</div>
+                        <div class="forge-source-label">Core Conflict</div>
+                    </div>
+                    <div class="forge-tags" id="forge-tags-conflict"></div>
+                </div>
+
+                <!-- Action Bar -->
+                <div class="forge-counter" id="forge-counter"><span>0</span> filters selected (min 1)</div>
+                <div class="forge-action-bar">
+                    <button class="forge-btn forge-btn-primary" id="forge-btn-generate"
+                        onclick="forge.generate()" disabled>FORGE CONCEPT</button>
+                    <button class="forge-btn forge-btn-clear" onclick="forge.clearAll()">CLEAR</button>
+                </div>
+
+                <!-- Loading -->
+                <div class="forge-loading" id="forge-loading">
+                    <div class="forge-spinner"></div>
+                    <div class="forge-loading-text">Fusing sources... building concept...</div>
+                </div>
+
+                <!-- Error -->
+                <div class="forge-error" id="forge-error">
+                    <div class="forge-error-text" id="forge-error-text"></div>
+                </div>
+
+                <!-- Result: 7-Step Output -->
+                <div class="forge-result" id="forge-result">
+                    <div class="forge-result-divider"></div>
+
+                    <!-- Dynamic steps rendered by JS -->
+                    <div id="forge-result-steps"></div>
+
+                    <!-- Raw fallback -->
+                    <div class="forge-result-raw" id="forge-r-raw" style="display:none;"></div>
+
+                    <div class="forge-reforge-bar">
+                        <button class="forge-btn-reforge" onclick="forge.generate()">RE-FORGE</button>
+                        <button class="forge-btn-save-idea" onclick="forge.saveToVault()">SAVE TO VAULT</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Persistent Bottom Nav -->
         <nav>
             <div class="nav-item active" onclick="router.navigate('home')">
@@ -961,12 +1482,12 @@
                     </svg>
                 </div>
             </div>
-            <div class="nav-item">
+            <div class="nav-item" onclick="router.navigate('forge')">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                 </svg>
-                <span>AI</span>
+                <span>Forge</span>
             </div>
             <div class="nav-item" onclick="router.navigate('search')">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -1040,6 +1561,7 @@
                     if (this.current === 'home' && text === 'status') item.classList.add('active');
                     if (this.current === 'genres' && text === 'genres') item.classList.add('active');
                     if (this.current === 'search' && text === 'search') item.classList.add('active');
+                    if (this.current === 'forge' && text === 'forge') item.classList.add('active');
                 });
             }
         };
@@ -1502,8 +2024,447 @@
             }
         };
 
+        // ===== STORY FORGE MODULE =====
+        const FORGE_API_KEY = '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';
+
+        const FORGE_FILTERS = {
+            genre: {
+                options: [
+                    'Drama', 'Comedy', 'Thriller', 'Horror', 'Romance', 'Action', 'Sci-Fi', 'Fantasy',
+                    'Mystery', 'Crime', 'War', 'Musical', 'Noir', 'Satire', 'Western',
+                    'Horror-Comedy', 'Romantic Comedy', 'Political Thriller', 'Psychological Thriller',
+                    'Legal Drama', 'Medical Drama', 'Sports Drama', 'Heist', 'Espionage',
+                    'Survival', 'Supernatural', 'Gothic', 'Cyberpunk', 'Post-Apocalyptic',
+                    'Dark Comedy', 'Tragicomedy', 'Coming-of-Age', 'Revenge', 'Gangster',
+                    'Neo-Noir', 'Period Drama', 'Historical Epic', 'Arthouse', 'True Crime',
+                    'Mockumentary', 'Found Footage', 'Folk Horror', 'Body Horror', 'Slasher',
+                    'Space Opera', 'Hard Sci-Fi', 'Time Travel', 'Kaiju', 'Samurai',
+                    'Martial Arts', 'Road Movie', 'Buddy Film', 'Courtroom', 'Prison Drama'
+                ]
+            },
+            tone: {
+                options: [
+                    'Dark & Gritty', 'Light & Funny', 'Bittersweet', 'Absurdist', 'Tense & Paranoid',
+                    'Warm & Nostalgic', 'Cold & Clinical', 'Dreamy & Surreal', 'Raw & Unflinching',
+                    'Epic & Grand', 'Intimate & Quiet', 'Cynical & Sharp', 'Brooding & Atmospheric',
+                    'Frenetic & Chaotic', 'Campy & Over-the-Top', 'Meditative & Slow-Burn',
+                    'Darkly Comic', 'Operatic & Melodramatic', 'Visceral & Intense',
+                    'Heartbreaking', 'Quirky & Offbeat', 'Swaggering & Cool',
+                    'Eerie & Unsettling', 'Hopeful & Uplifting', 'Bleak & Nihilistic'
+                ]
+            },
+            budget: {
+                options: [
+                    'Micro Budget (Single Location, <5 Actors)',
+                    'Low Budget (2-3 Locations, Small Cast)',
+                    'Mid Budget (Multiple Locations, Moderate Cast)',
+                    'Big Budget (Epic Scale, Large Cast, Some VFX)',
+                    'Blockbuster (Spectacle, Global Locations, Heavy VFX)'
+                ]
+            },
+            concept: {
+                options: [
+                    'Grounded Realism (No genre gimmick, pure human drama)',
+                    'Slightly Elevated (One unusual twist on a real situation)',
+                    'High Concept (Clear "what if" premise, easy elevator pitch)',
+                    'Extreme High Concept (Wild premise, genre-bending, rule-of-the-world)',
+                    'Batshit Insane (Maximum weirdness, maximum hook)'
+                ]
+            },
+            setting: {
+                options: [
+                    'Small Village', 'Bustling Metropolis', 'Coastal Town', 'Desert', 'Mountain',
+                    'Suburban', 'Island', 'Space Station', 'Underground', 'War Zone',
+                    'College Campus', 'Corporate Office', 'Prison', 'Hospital', 'Ancient Ruins',
+                    'Dystopian City', 'Haunted Mansion', 'Ship / Submarine', 'Train',
+                    'Jungle / Wilderness', 'Arctic', 'Farm / Rural', 'Casino',
+                    'Courtroom', 'Police Station', 'Restaurant Kitchen', 'Tech Startup',
+                    'Medieval Castle', 'Indian Bazaar', 'Tokyo', 'Mumbai', 'New York',
+                    'Mars Colony', 'Virtual Reality', 'Post-War Ruins', 'Border Town'
+                ]
+            },
+            era: {
+                options: [
+                    'Ancient / Mythological', 'Medieval', 'Renaissance', 'Colonial Era',
+                    'Victorian', 'World War I', 'World War II', '1950s', '1970s', '1990s',
+                    'Present Day', 'Near Future', 'Far Future', 'Timeless / Fable',
+                    'Alternate History', 'Multiple Timelines'
+                ]
+            },
+            protagonist: {
+                options: [
+                    'Unlikely Hero', 'Anti-Hero', 'Fallen Leader', 'Outsider / Misfit',
+                    'Ordinary Person in Chaos', 'Child / Coming-of-Age', 'Elderly Sage',
+                    'Con Artist', 'Idealist', 'Reluctant Warrior', 'Artist / Creator',
+                    'Working Class Survivor', 'Corrupt Power Broker', 'Duo / Buddy Pair',
+                    'Disgraced Cop', 'Whistleblower', 'Immigrant / Refugee', 'War Veteran',
+                    'Scientist', 'Journalist', 'Single Parent', 'Hacker', 'Street Kid',
+                    'Villain Protagonist', 'Wrongfully Accused', 'Double Agent',
+                    'Terminally Ill', 'Amnesiac', 'Robot / AI'
+                ]
+            },
+            conflict: {
+                options: [
+                    'Man vs. Self', 'Man vs. Man', 'Man vs. Society', 'Man vs. Nature',
+                    'Man vs. Technology', 'Betrayal & Revenge', 'Forbidden Love',
+                    'Power Struggle', 'Survival Against Odds', 'Identity Crisis',
+                    'Moral Dilemma', 'Class War', 'Family Feud', 'Redemption Arc',
+                    'Escape / Freedom', 'Obsession & Madness', 'Conspiracy Unraveling',
+                    'Race Against Time', 'Heist Gone Wrong', 'Siege / Last Stand',
+                    'Succession Crisis', 'Generational Trauma', 'Addiction & Recovery'
+                ]
+            }
+        };
+
+        const FORGE_SYSTEM_PROMPT = `Act as a professional story architect trained in McKee, Truby (moral argument), Vogler, and Save The Cat structure.
+Your task is to generate ONE original feature film concept by intelligently fusing 2–4 widely known films, novels, or major genre tropes that YOU select based on the user's creative parameters.
+The result must feel fresh, emotionally gripping, commercially viable, and fast to draft — not a superficial mashup.
+
+YOUR FUSION SOURCE SELECTION RULES:
+- Choose 2-4 widely known films/novels/shows as fusion sources
+- One source must provide the CORE PREMISE ENGINE (high-concept situation or world)
+- One source must provide the PROTAGONIST PSYCHOLOGY (character flaw, moral struggle, emotional wound)
+- One source must provide GENRE PRESSURE or TONAL CONTRAST (thriller urgency, satire tone, survival tension)
+- Sources must serve DIFFERENT story functions — avoid choosing sources that overlap
+- Prefer tonal collision rather than tonal similarity
+- Prefer scale collision (large concept + intimate human drama)
+
+MANDATORY STORY CONSTRAINTS — the concept MUST include:
+- An ironic protagonist (the least suited person for this conflict)
+- A clearly contained dramatic arena (one town, one building, one event, one night, or within a 72-hour window)
+- A ticking clock
+- A clear human antagonist with an active goal
+- A midpoint that irreversibly shifts the power dynamic
+- A climax where the protagonist must act against their original belief
+- At least one visually marketable cinematic set-piece
+- Strong emotional stakes rooted in the protagonist's psychological wound
+If any constraint is missing, revise the idea before continuing.
+
+Tone: Commercial but intelligent.
+Length: 800–1200 words total.
+Do NOT copy plot beats directly from source material.
+Create a genuinely new protagonist and narrative.
+Avoid generic templates.`;
+
+        const forge = {
+            selections: {},
+            isGenerating: false,
+            lastRaw: '',
+
+            init() {
+                Object.keys(FORGE_FILTERS).forEach(key => {
+                    const container = document.getElementById(`forge-tags-${key}`);
+                    if (!container) return;
+                    container.innerHTML = FORGE_FILTERS[key].options.map(opt =>
+                        `<button class="forge-tag" data-filter="${key}" data-value="${opt}" onclick="forge.toggleTag(this)">${opt}</button>`
+                    ).join('');
+                });
+            },
+
+            toggleTag(el) {
+                const filter = el.dataset.filter;
+                const value = el.dataset.value;
+
+                if (this.selections[filter] === value) {
+                    delete this.selections[filter];
+                    el.classList.remove('selected');
+                } else {
+                    const container = el.parentElement;
+                    container.querySelectorAll('.forge-tag').forEach(t => t.classList.remove('selected'));
+                    this.selections[filter] = value;
+                    el.classList.add('selected');
+                }
+                this.updateState();
+            },
+
+            updateState() {
+                const count = Object.keys(this.selections).length;
+                document.getElementById('forge-counter').innerHTML = `<span>${count}</span> filters selected (min 1)`;
+                const btn = document.getElementById('forge-btn-generate');
+                btn.disabled = count < 1;
+                btn.textContent = this.isGenerating ? 'FORGING...' : 'FORGE CONCEPT';
+            },
+
+            buildPrompt() {
+                const labels = {
+                    genre: 'Genre', tone: 'Tone', budget: 'Budget Scale', concept: 'High-Concept Level',
+                    setting: 'Setting', era: 'Era', protagonist: 'Protagonist Type', conflict: 'Core Conflict'
+                };
+
+                let params = '';
+                Object.keys(labels).forEach(key => {
+                    if (this.selections[key]) {
+                        params += `• ${labels[key]}: ${this.selections[key]}\n`;
+                    }
+                });
+
+                return `Here are my creative parameters:
+${params}
+Based on these parameters, YOU must first select 2-4 widely known films/novels/shows as intelligent fusion sources (each serving a different story function), then generate ONE original feature film concept. Follow this EXACT structure:
+
+STEP 1 — FUSION SOURCE ANALYSIS
+List the selected sources and specify which STORY FUNCTION each contributes. Explain why these sources create interesting tonal collision.
+
+STEP 2 — FUSION STRATEGY
+In 6–10 bullet points explain:
+- What specific element is borrowed from each source (premise, archetype, structure, theme, world)
+- What is flipped (gender, morality, power dynamic, POV, setting, tone, genre expectation)
+- What cliché is being subverted
+- What the central irony of the new story is
+- Why this fusion creates fresh dramatic tension
+
+STEP 3 — CORE CONFLICT ENGINE
+Define clearly:
+- Protagonist (profession + flaw + past emotional wound)
+- Antagonist (goal + strengths + why they are formidable)
+- External goal of protagonist
+- Internal emotional need
+- External stakes
+- Internal stakes
+- Why the conflict cannot be avoided or escaped
+
+STEP 4 — HIGH-CONCEPT LOGLINE
+Write a sharp 2–3 sentence logline presenting protagonist, goal, antagonist, stakes, and unique irony.
+Also provide a WORKING TITLE.
+
+STEP 5 — TIGHT CINEMATIC 3-ACT STRUCTURE
+ACT 1: Ordinary world → Inciting incident → Decision that locks protagonist into conflict
+ACT 2: Progressive complications → Escalating stakes → Midpoint power shift → Moral pressure intensifies → Lowest emotional point
+ACT 3: Final confrontation → Climax decision (against old belief) → Emotional resolution and payoff
+Keep it visual, urgent, and dramatically clear.
+
+STEP 6 — THEMATIC DEPTH
+- Central theme (one sentence)
+- Moral argument (old belief vs new truth)
+- Character arc in one line
+
+STEP 7 — WRITEABILITY & PRODUCTION CHECK
+Explain why this idea can be produced on a contained or mid-budget scale, uses limited core locations, has strong forward narrative drive, avoids heavy VFX spectacle, and can be drafted quickly due to a strong pressure engine.`;
+            },
+
+            parseSteps(text) {
+                const steps = [];
+                const stepHeaders = [
+                    { num: '1', title: 'Fusion Source Analysis', regex: /STEP 1\s*[—–-]+\s*(?:FUSION SOURCE (?:ANALYSIS|SELECTION)|INTELLIGENT FUSION)/i },
+                    { num: '2', title: 'Fusion Strategy', regex: /STEP 2\s*[—–-]+\s*FUSION STRATEGY/i },
+                    { num: '3', title: 'Core Conflict Engine', regex: /STEP 3\s*[—–-]+\s*CORE CONFLICT ENGINE/i },
+                    { num: '4', title: 'High-Concept Logline', regex: /STEP 4\s*[—–-]+\s*HIGH-CONCEPT LOGLINE/i },
+                    { num: '5', title: '3-Act Structure', regex: /STEP 5\s*[—–-]+\s*TIGHT CINEMATIC 3-ACT/i },
+                    { num: '6', title: 'Thematic Depth', regex: /STEP 6\s*[—–-]+\s*THEMATIC DEPTH/i },
+                    { num: '7', title: 'Writeability & Production Check', regex: /STEP 7\s*[—–-]+\s*WRITEABILITY/i }
+                ];
+
+                // Find positions of each step
+                const positions = [];
+                stepHeaders.forEach(sh => {
+                    const match = text.match(sh.regex);
+                    if (match) {
+                        positions.push({ ...sh, index: match.index, matchLength: match[0].length });
+                    }
+                });
+
+                positions.sort((a, b) => a.index - b.index);
+
+                positions.forEach((pos, i) => {
+                    const start = pos.index + pos.matchLength;
+                    const end = i < positions.length - 1 ? positions[i + 1].index : text.length;
+                    const content = text.substring(start, end).trim();
+                    steps.push({ num: pos.num, title: pos.title, content });
+                });
+
+                return steps.length >= 3 ? steps : null;
+            },
+
+            showError(msg) {
+                const el = document.getElementById('forge-error');
+                document.getElementById('forge-error-text').textContent = msg;
+                el.classList.add('active');
+            },
+
+            hideError() {
+                document.getElementById('forge-error').classList.remove('active');
+            },
+
+            async generate() {
+                if (this.isGenerating) return;
+                this.isGenerating = true;
+                this.hideError();
+                document.getElementById('forge-result').classList.remove('active');
+                document.getElementById('forge-loading').classList.add('active');
+                document.getElementById('forge-btn-generate').disabled = true;
+                document.getElementById('forge-btn-generate').textContent = 'FORGING...';
+
+                try {
+                    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${FORGE_API_KEY}`
+                        },
+                        body: JSON.stringify({
+                            model: 'gpt-4o',
+                            max_tokens: 3000,
+                            temperature: 0.9,
+                            top_p: 1.0,
+                            frequency_penalty: 0.3,
+                            presence_penalty: 0.2,
+                            messages: [
+                                { role: 'system', content: FORGE_SYSTEM_PROMPT },
+                                { role: 'user', content: this.buildPrompt() }
+                            ]
+                        })
+                    });
+
+                    if (!response.ok) {
+                        const errData = await response.json().catch(() => ({}));
+                        throw new Error(errData.error?.message || `API Error: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    const text = data.choices?.[0]?.message?.content || '';
+                    if (!text) throw new Error('No content returned from API.');
+
+                    this.lastRaw = text;
+                    this.displayResult();
+
+                } catch (err) {
+                    console.error('Forge: Generation error', err);
+                    this.showError(err.message);
+                } finally {
+                    this.isGenerating = false;
+                    document.getElementById('forge-loading').classList.remove('active');
+                    this.updateState();
+                }
+            },
+
+            escapeHTML(str) {
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            },
+
+            displayResult() {
+                const resultEl = document.getElementById('forge-result');
+                const stepsEl = document.getElementById('forge-result-steps');
+                const rawEl = document.getElementById('forge-r-raw');
+
+                const parsed = this.parseSteps(this.lastRaw);
+
+                if (parsed && parsed.length > 0) {
+                    let html = '';
+
+                    // Extract working title from Step 4 content
+                    const step4 = parsed.find(s => s.num === '4');
+                    if (step4) {
+                        const titleMatch = step4.content.match(/(?:WORKING TITLE|Title)[:\s]*["']?([^"'\n]+)["']?/i);
+                        if (titleMatch) {
+                            html += `<div class="forge-working-title">${this.escapeHTML(titleMatch[1].trim())}</div>`;
+                        }
+                    }
+
+                    parsed.forEach(step => {
+                        const isLogline = step.num === '4';
+                        const isTheme = step.num === '6';
+                        const isProd = step.num === '7';
+
+                        html += `<div class="forge-step">`;
+                        html += `<div class="forge-step-header">`;
+                        html += `<div class="forge-step-num">STEP ${step.num}</div>`;
+                        html += `<div class="forge-step-title">${this.escapeHTML(step.title)}</div>`;
+                        html += `</div>`;
+
+                        if (isLogline) {
+                            html += `<div class="forge-logline-box">${this.escapeHTML(step.content)}</div>`;
+                        } else if (isTheme) {
+                            html += `<div class="forge-theme-box"><div class="forge-step-body">${this.escapeHTML(step.content)}</div></div>`;
+                        } else if (isProd) {
+                            html += `<div class="forge-prod-box"><div class="forge-step-body">${this.escapeHTML(step.content)}</div></div>`;
+                        } else {
+                            html += `<div class="forge-step-body">${this.escapeHTML(step.content)}</div>`;
+                        }
+
+                        html += `</div>`;
+                    });
+
+                    stepsEl.innerHTML = html;
+                    stepsEl.style.display = '';
+                    rawEl.style.display = 'none';
+                } else {
+                    // Raw fallback
+                    stepsEl.style.display = 'none';
+                    rawEl.style.display = '';
+                    rawEl.textContent = this.lastRaw;
+                }
+
+                resultEl.classList.add('active');
+                setTimeout(() => {
+                    document.querySelector('.forge-result-divider')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            },
+
+            clearAll() {
+                this.selections = {};
+                document.querySelectorAll('.forge-tag.selected').forEach(t => t.classList.remove('selected'));
+                document.getElementById('forge-result').classList.remove('active');
+                this.hideError();
+                this.lastRaw = '';
+                this.updateState();
+            },
+
+            async saveToVault() {
+                if (!this.lastRaw) return;
+
+                // Try to extract title and logline from raw output
+                const titleMatch = this.lastRaw.match(/(?:WORKING TITLE|Title)[:\s]*["']?([^"'\n]+)["']?/i);
+                const loglineMatch = this.lastRaw.match(/(?:LOGLINE|logline)[:\s]*(.+?)(?:\n\n|\n[A-Z])/is);
+
+                const title = titleMatch ? titleMatch[1].trim() : 'Untitled Forge Concept';
+                const logline = loglineMatch ? loglineMatch[1].trim() : '';
+
+                const data = {
+                    title: title,
+                    genre: 'Other',
+                    status: 'Raw',
+                    logline: logline,
+                    concept: this.lastRaw,
+                    sections: {},
+                    updated_at: new Date().toISOString()
+                };
+
+                const client = getSupabase();
+                if (!client) { alert('Cloud connection not established.'); return; }
+
+                app.setLoading(true);
+                try {
+                    const { error } = await client.from('stories').insert([data]);
+                    if (error) throw error;
+                    await app.load();
+                    alert('Concept saved to Story Vault!');
+                } catch (err) {
+                    console.error('Forge: Save error', err);
+                    alert('Failed to save: ' + err.message);
+                } finally {
+                    app.setLoading(false);
+                }
+            }
+        };
+
+        // --- Supabase Keep-Alive Ping (prevents free-tier sleep) ---
+        function pingSupabase() {
+            const client = getSupabase();
+            if (client) {
+                client.from('stories').select('id', { count: 'exact', head: true }).limit(1)
+                    .then(() => console.log('Story Vault: Keep-alive ping sent.'))
+                    .catch(() => {});
+            }
+        }
+        // Ping on load and every 12 hours while app is open
+        setTimeout(pingSupabase, 5000);
+        setInterval(pingSupabase, 12 * 60 * 60 * 1000);
+
         // --- Init ---
         app.init();
+        forge.init();
 
     </script>
 </body>
