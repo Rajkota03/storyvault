@@ -48,6 +48,15 @@
             --safe-bottom: env(safe-area-inset-bottom, 0px);
         }
 
+        html {
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -59,38 +68,42 @@
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-base);
             color: var(--text-primary);
-            height: 100vh;
+            height: 100%;
+            width: 100%;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             position: relative;
+            overscroll-behavior: none;
+            -webkit-overflow-scrolling: touch;
         }
 
         /* --- Organic Background Blobs --- */
         body::before,
         body::after {
             content: '';
-            position: absolute;
+            position: fixed;
             z-index: 0;
             border-radius: 50%;
+            pointer-events: none;
         }
 
         body::before {
             background: var(--accent-mint);
-            width: 400px;
-            height: 500px;
+            width: min(400px, 80vw);
+            height: min(500px, 90vh);
             top: -100px;
-            left: -150px;
+            left: -100px;
             border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
             transform: rotate(15deg);
         }
 
         body::after {
             background: var(--bg-surface);
-            width: 500px;
-            height: 300px;
+            width: min(400px, 70vw);
+            height: min(300px, 50vh);
             bottom: -50px;
-            right: -100px;
+            right: -50px;
             border-radius: 60% 40% 30% 70% / 50% 40% 60% 50%;
             transform: rotate(-10deg);
         }
@@ -103,18 +116,24 @@
             position: relative;
             overflow: hidden;
             z-index: 1;
+            width: 100%;
+            max-width: 100vw;
         }
 
         .screen {
             position: absolute;
             top: 0;
             left: 0;
+            right: 0;
+            bottom: 0;
             width: 100%;
-            height: 100%;
+            max-width: 100%;
             display: none;
             flex-direction: column;
             padding-bottom: calc(70px + var(--safe-bottom));
+            overflow-x: hidden;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             background: transparent;
         }
 
@@ -188,18 +207,18 @@
         /* Tabs */
         .tabs {
             display: flex;
-            padding: 0.5rem;
-            gap: 0.5rem;
-            margin: 0 1.5rem 1.5rem;
+            padding: 0.35rem;
+            gap: 0.25rem;
+            margin: 0 1rem 1.25rem;
             background: var(--bg-base);
-            /* Inset track */
             border-radius: 30px;
             box-shadow: var(--shadow-inset);
+            overflow: hidden;
         }
 
         .tab {
-            padding: 0.6rem 1.2rem;
-            font-size: 0.85rem;
+            padding: 0.5rem 0.4rem;
+            font-size: 0.72rem;
             font-weight: 700;
             color: var(--text-secondary);
             cursor: pointer;
@@ -209,6 +228,7 @@
             border-radius: 20px;
             flex: 1;
             text-align: center;
+            min-width: 0;
         }
 
         .tab.active {
