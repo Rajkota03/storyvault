@@ -1567,14 +1567,21 @@
 
                     if (error) throw error;
                     this.ideas = data || [];
+                    this.cloudAvailable = true;
                     console.log(`Story Vault: ${this.ideas.length} records retrieved from cloud.`);
                 } catch (err) {
                     console.error('Vault Access Error:', err);
+                    this.cloudAvailable = false;
                     const localData = localStorage.getItem(STORAGE_KEY);
                     this.ideas = localData ? JSON.parse(localData) : [];
+                    console.log(`Story Vault: Using local storage. ${this.ideas.length} records loaded.`);
                 } finally {
                     this.setLoading(false);
                 }
+            },
+
+            saveLocal() {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(this.ideas));
             },
 
             checkLocalSync() {
@@ -1898,58 +1905,77 @@
                 };
 
                 const client = getSupabase();
-                if (!client) return alert('Cloud connection not established. Saving locally is disabled for cloud-mode.');
-
                 this.setLoading(true);
-                try {
-                    console.log('Story Vault: Saving record...');
-                    if (this.editingId) {
-                        const { error } = await client
-                            .from('stories')
-                            .update(data)
-                            .eq('id', this.editingId);
-                        if (error) throw error;
-                    } else {
-                        const { error } = await client
-                            .from('stories')
-                            .insert([data]);
-                        if (error) throw error;
-                    }
+                let savedToCloud = false;
 
-                    console.log('Story Vault: Save successful.');
-                    await this.load();
-                    router.navigate('home', 'back');
-                } catch (err) {
-                    console.error('Save error:', err);
-                    alert('Failed to save in vault: ' + err.message);
-                } finally {
-                    this.setLoading(false);
+                if (client && this.cloudAvailable) {
+                    try {
+                        console.log('Story Vault: Saving to cloud...');
+                        if (this.editingId) {
+                            const { error } = await client
+                                .from('stories')
+                                .update(data)
+                                .eq('id', this.editingId);
+                            if (error) throw error;
+                        } else {
+                            const { error } = await client
+                                .from('stories')
+                                .insert([data]);
+                            if (error) throw error;
+                        }
+                        savedToCloud = true;
+                        console.log('Story Vault: Cloud save successful.');
+                        await this.load();
+                    } catch (err) {
+                        console.warn('Story Vault: Cloud save failed, falling back to local.', err);
+                        savedToCloud = false;
+                    }
                 }
+
+                if (!savedToCloud) {
+                    // Local storage fallback
+                    if (this.editingId) {
+                        const idx = this.ideas.findIndex(i => i.id === this.editingId);
+                        if (idx > -1) Object.assign(this.ideas[idx], data);
+                    } else {
+                        data.id = 'local_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                        this.ideas.unshift(data);
+                    }
+                    this.saveLocal();
+                    console.log('Story Vault: Saved to local storage.');
+                }
+
+                this.setLoading(false);
+                router.navigate('home', 'back');
+                this.renderHome();
             },
 
             async deleteIdea(id) {
                 if (confirm('Permanently wipe this entry from the vault? This cannot be undone.')) {
                     const client = getSupabase();
-                    if (!client) return alert('Cloud connection not established.');
-
                     this.setLoading(true);
-                    try {
-                        console.log(`Story Vault: Erasing record ${id}...`);
-                        const { error } = await client
-                            .from('stories')
-                            .delete()
-                            .eq('id', id);
-                        if (error) throw error;
+                    let deletedFromCloud = false;
 
-                        console.log('Story Vault: Erase successful.');
-                        await this.load();
-                        router.navigate('home', 'back');
-                    } catch (err) {
-                        console.error('Delete error:', err);
-                        alert('Erase failed: ' + err.message);
-                    } finally {
-                        this.setLoading(false);
+                    if (client && this.cloudAvailable && !String(id).startsWith('local_')) {
+                        try {
+                            console.log(`Story Vault: Erasing record ${id} from cloud...`);
+                            const { error } = await client.from('stories').delete().eq('id', id);
+                            if (error) throw error;
+                            deletedFromCloud = true;
+                            await this.load();
+                        } catch (err) {
+                            console.warn('Cloud delete failed, removing locally.', err);
+                        }
                     }
+
+                    if (!deletedFromCloud) {
+                        this.ideas = this.ideas.filter(i => i.id !== id);
+                        this.saveLocal();
+                    }
+
+                    this.setLoading(false);
+                    router.navigate('home', 'back');
+                    this.renderHome();
                 }
             },
 
@@ -2421,20 +2447,29 @@ Explain why this idea can be produced on a contained or mid-budget scale, uses l
                 };
 
                 const client = getSupabase();
-                if (!client) { alert('Cloud connection not established.'); return; }
-
                 app.setLoading(true);
-                try {
-                    const { error } = await client.from('stories').insert([data]);
-                    if (error) throw error;
-                    await app.load();
-                    alert('Concept saved to Story Vault!');
-                } catch (err) {
-                    console.error('Forge: Save error', err);
-                    alert('Failed to save: ' + err.message);
-                } finally {
-                    app.setLoading(false);
+                let savedToCloud = false;
+
+                if (client && app.cloudAvailable) {
+                    try {
+                        const { error } = await client.from('stories').insert([data]);
+                        if (error) throw error;
+                        savedToCloud = true;
+                        await app.load();
+                    } catch (err) {
+                        console.warn('Forge: Cloud save failed, using local.', err);
+                    }
                 }
+
+                if (!savedToCloud) {
+                    data.id = 'local_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                    app.ideas.unshift(data);
+                    app.saveLocal();
+                }
+
+                app.setLoading(false);
+                app.renderHome();
+                alert('Concept saved to Story Vault!');
             }
         };
 
