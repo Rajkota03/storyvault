@@ -9,6 +9,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap"
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
     <style>
         :root {
             /* Organic Neumorphism Palette (Solid Pastels) */
@@ -1292,6 +1293,15 @@
                     </svg>
                 </button>
                 <div style="flex: 1"></div>
+                <button class="icon-btn" id="btn-export-pdf" title="Export PDF">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="12" y1="18" x2="12" y2="12"></line>
+                        <polyline points="9 15 12 18 15 15"></polyline>
+                    </svg>
+                </button>
                 <button class="icon-btn" id="btn-edit-current">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1813,17 +1823,190 @@
 
                 container.innerHTML = html;
 
+                document.getElementById('btn-export-pdf').onclick = () => {
+                    this.exportPDF(id);
+                };
+
                 document.getElementById('btn-edit-current').onclick = () => {
-                    console.log(`Story Vault: ID ${id} triggered for Edit.`);
                     this.openEdit(id);
                 };
 
                 document.getElementById('btn-delete-current').onclick = () => {
-                    console.log(`Story Vault: ID ${id} triggered for Delete.`);
                     this.deleteIdea(id);
                 };
 
                 router.navigate('detail');
+            },
+
+            exportPDF(id) {
+                const idea = this.ideas.find(i => i.id === id);
+                if (!idea) return;
+
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+                const pw = 210; // page width
+                const margin = 20;
+                const textW = pw - margin * 2;
+                let y = 20;
+
+                const colors = {
+                    black: [10, 10, 12],
+                    gold: [200, 165, 40],
+                    white: [255, 255, 255],
+                    gray: [140, 140, 140],
+                    lightGray: [200, 200, 200],
+                    darkGray: [40, 40, 40]
+                };
+
+                // --- Page background ---
+                const fillPage = () => {
+                    doc.setFillColor(...colors.black);
+                    doc.rect(0, 0, pw, 297, 'F');
+                };
+                fillPage();
+
+                // --- Header bar ---
+                doc.setFillColor(15, 15, 18);
+                doc.rect(0, 0, pw, 45, 'F');
+                doc.setDrawColor(...colors.gold);
+                doc.setLineWidth(0.5);
+                doc.line(margin, 45, pw - margin, 45);
+
+                // Brand
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(8);
+                doc.setTextColor(...colors.gold);
+                doc.text('STORY VAULT', margin, 12);
+
+                // Genre + Status pills
+                doc.setFontSize(7);
+                doc.setTextColor(...colors.gray);
+                const pills = `${idea.genre.toUpperCase()}  •  ${idea.status.toUpperCase()}`;
+                doc.text(pills, margin, 19);
+
+                // Title
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(22);
+                doc.setTextColor(...colors.white);
+                const titleLines = doc.splitTextToSize(idea.title, textW);
+                doc.text(titleLines, margin, 30);
+                y = 30 + titleLines.length * 8;
+
+                // Date
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(7);
+                doc.setTextColor(...colors.gray);
+                const dateStr = idea.updated_at ? new Date(idea.updated_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
+                doc.text(dateStr, pw - margin, 12, { align: 'right' });
+
+                y = 52;
+
+                // --- Helper: check page break ---
+                const checkPage = (needed) => {
+                    if (y + needed > 280) {
+                        doc.addPage();
+                        fillPage();
+                        y = 20;
+                    }
+                };
+
+                // --- Helper: add a section ---
+                const addSection = (label, content) => {
+                    if (!content) return;
+
+                    // Clean markdown artifacts
+                    const clean = content
+                        .replace(/\*\*/g, '')
+                        .replace(/\*/g, '')
+                        .replace(/^#+\s*/gm, '')
+                        .replace(/^---+$/gm, '')
+                        .trim();
+
+                    checkPage(20);
+
+                    // Section label
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(8);
+                    doc.setTextColor(...colors.gold);
+                    doc.text(label.toUpperCase(), margin, y);
+                    y += 2;
+
+                    // Gold underline
+                    doc.setDrawColor(...colors.gold);
+                    doc.setLineWidth(0.3);
+                    doc.line(margin, y, margin + 35, y);
+                    y += 5;
+
+                    // Body text
+                    doc.setFont('helvetica', 'normal');
+                    doc.setFontSize(9.5);
+                    doc.setTextColor(220, 220, 220);
+                    const lines = doc.splitTextToSize(clean, textW);
+
+                    lines.forEach(line => {
+                        checkPage(5);
+                        doc.text(line, margin, y);
+                        y += 4.5;
+                    });
+
+                    y += 6;
+                };
+
+                // --- Sections ---
+                const s = idea.sections || {};
+
+                // Logline (highlighted)
+                const loglineText = s.logline || idea.logline;
+                if (loglineText) {
+                    const cleanLogline = loglineText.replace(/\*\*/g, '').replace(/\*/g, '').trim();
+                    checkPage(25);
+
+                    // Gold left border box
+                    doc.setFillColor(18, 18, 22);
+                    const loglineLines = doc.splitTextToSize(cleanLogline, textW - 8);
+                    const boxH = loglineLines.length * 5 + 10;
+                    doc.rect(margin, y - 2, textW, boxH, 'F');
+                    doc.setFillColor(...colors.gold);
+                    doc.rect(margin, y - 2, 2, boxH, 'F');
+
+                    doc.setFont('helvetica', 'bold');
+                    doc.setFontSize(7);
+                    doc.setTextColor(...colors.gold);
+                    doc.text('LOGLINE', margin + 6, y + 3);
+
+                    doc.setFont('helvetica', 'italic');
+                    doc.setFontSize(10);
+                    doc.setTextColor(...colors.gold);
+                    loglineLines.forEach((line, i) => {
+                        doc.text(line, margin + 6, y + 9 + i * 5);
+                    });
+
+                    y += boxH + 8;
+                }
+
+                addSection('Fusion Sources & References', s.sources);
+                addSection('Fusion Strategy', s.logic);
+                addSection('Core Conflict Engine', s.architecture);
+                addSection('3-Act Structure', s.three_act);
+                addSection('Thematic Depth', s.theme);
+                addSection('Writeability & Production', s.production);
+
+                // If no structured sections, show raw concept
+                if (!s || Object.keys(s).length === 0) {
+                    addSection('Full Concept', idea.concept);
+                }
+
+                // --- Footer on last page ---
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(7);
+                doc.setTextColor(...colors.gray);
+                doc.text('Generated by Story Vault — Story Forge AI', margin, 290);
+                doc.setTextColor(80, 80, 80);
+                doc.text('CONFIDENTIAL', pw - margin, 290, { align: 'right' });
+
+                // Save
+                const filename = idea.title.replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, '_').substring(0, 40);
+                doc.save(`${filename}_StoryVault.pdf`);
             },
 
             toggleSection(key) {
