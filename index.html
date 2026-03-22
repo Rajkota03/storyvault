@@ -884,6 +884,14 @@
             background: rgba(232, 197, 71, 0.08);
             box-shadow: 0 0 12px rgba(232, 197, 71, 0.1);
         }
+        .forge-genre-hint {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
+            color: rgba(232, 197, 71, 0.5);
+            margin-top: 0.5rem;
+            letter-spacing: 0.5px;
+        }
+        .forge-genre-hint span { color: #E8C547; font-weight: 700; }
         .forge-selected-display {
             margin-top: 0.75rem;
             padding: 0.5rem 0.75rem;
@@ -1348,8 +1356,9 @@
                         <div class="forge-source-number src-premise">1</div>
                         <div class="forge-source-label">Genre & Sub-Genre</div>
                     </div>
-                    <div class="forge-source-desc">Pick one. The AI handles the rest.</div>
+                    <div class="forge-source-desc">Pick a main genre + sub-genre (select up to 2)</div>
                     <div class="forge-tags" id="forge-tags-genre"></div>
+                    <div class="forge-genre-hint" id="forge-genre-hint"></div>
                 </div>
 
                 <!-- Filter: Budget Range -->
@@ -1779,14 +1788,16 @@
                 html += addExpanded('High-Concept Logline', s.logline, idea.logline);
 
                 // Technical Data Group
-                if (s.three_act || s.sources || s.logic || s.architecture) {
+                if (s.three_act || s.sources || s.logic || s.architecture || s.theme || s.production) {
                     html += `<div style="margin-top: 2.5rem; margin-bottom: 1rem;" class="label-style">Technical Data / Vault Logs</div>`;
                 }
 
-                html += addCollapsible('Structure', s.three_act, 'structure');
-                html += addCollapsible('Fusion Sources', s.sources, 'sources');
-                html += addCollapsible('Fusion Logic', s.logic, 'logic');
-                html += addCollapsible('Core Architecture', s.architecture, 'architecture');
+                html += addCollapsible('3-Act Structure', s.three_act, 'structure');
+                html += addCollapsible('Fusion Sources & References', s.sources, 'sources');
+                html += addCollapsible('Fusion Strategy', s.logic, 'logic');
+                html += addCollapsible('Core Conflict Engine', s.architecture, 'architecture');
+                html += addCollapsible('Thematic Depth', s.theme, 'theme');
+                html += addCollapsible('Writeability & Production', s.production, 'production');
 
                 // If no structured sections, show raw concept
                 if (!idea.sections || Object.keys(idea.sections).length === 0) {
@@ -2057,11 +2068,13 @@ Create a genuinely new protagonist and narrative.
 Avoid generic templates.`;
 
         const forge = {
-            selections: {},
+            selections: {},      // budget, concept = single string; genre = array
             isGenerating: false,
             lastRaw: '',
 
             init() {
+                this.selections.genre = [];  // genre is always an array
+
                 Object.keys(FORGE_FILTERS).forEach(key => {
                     const container = document.getElementById(`forge-tags-${key}`);
                     if (!container) return;
@@ -2075,37 +2088,75 @@ Avoid generic templates.`;
                 const filter = el.dataset.filter;
                 const value = el.dataset.value;
 
-                if (this.selections[filter] === value) {
-                    delete this.selections[filter];
-                    el.classList.remove('selected');
+                if (filter === 'genre') {
+                    // Multi-select: allow up to 2 genres
+                    const idx = this.selections.genre.indexOf(value);
+                    if (idx > -1) {
+                        // Deselect
+                        this.selections.genre.splice(idx, 1);
+                        el.classList.remove('selected');
+                    } else {
+                        if (this.selections.genre.length >= 2) {
+                            // Remove oldest, deselect its button
+                            const removed = this.selections.genre.shift();
+                            const container = el.parentElement;
+                            container.querySelectorAll('.forge-tag').forEach(t => {
+                                if (t.dataset.value === removed) t.classList.remove('selected');
+                            });
+                        }
+                        this.selections.genre.push(value);
+                        el.classList.add('selected');
+                    }
                 } else {
-                    const container = el.parentElement;
-                    container.querySelectorAll('.forge-tag').forEach(t => t.classList.remove('selected'));
-                    this.selections[filter] = value;
-                    el.classList.add('selected');
+                    // Single-select for budget and concept
+                    if (this.selections[filter] === value) {
+                        delete this.selections[filter];
+                        el.classList.remove('selected');
+                    } else {
+                        const container = el.parentElement;
+                        container.querySelectorAll('.forge-tag').forEach(t => t.classList.remove('selected'));
+                        this.selections[filter] = value;
+                        el.classList.add('selected');
+                    }
                 }
                 this.updateState();
             },
 
             updateState() {
-                const count = Object.keys(this.selections).length;
-                document.getElementById('forge-counter').innerHTML = `<span>${count}</span> / 3 selected`;
+                const genreCount = this.selections.genre ? this.selections.genre.length : 0;
+                const budgetCount = this.selections.budget ? 1 : 0;
+                const conceptCount = this.selections.concept ? 1 : 0;
+                const totalFilters = Math.min(genreCount, 1) + budgetCount + conceptCount; // genre counts as 1 category
+                const totalTags = genreCount + budgetCount + conceptCount;
+
+                document.getElementById('forge-counter').innerHTML = `<span>${totalTags}</span> tag${totalTags !== 1 ? 's' : ''} selected`;
                 const btn = document.getElementById('forge-btn-generate');
-                btn.disabled = count < 1;
+                btn.disabled = totalTags < 1;
                 btn.textContent = this.isGenerating ? 'FORGING...' : 'FORGE CONCEPT';
+
+                // Genre hint
+                const hint = document.getElementById('forge-genre-hint');
+                if (genreCount === 0) {
+                    hint.innerHTML = '';
+                } else if (genreCount === 1) {
+                    hint.innerHTML = `<span>${this.selections.genre[0]}</span> selected — pick one more for a sub-genre blend`;
+                } else {
+                    hint.innerHTML = `<span>${this.selections.genre[0]}</span> + <span>${this.selections.genre[1]}</span>`;
+                }
             },
 
             buildPrompt() {
-                const labels = {
-                    genre: 'Genre / Sub-Genre', budget: 'Budget Range', concept: 'High-Concept Level'
-                };
-
                 let params = '';
-                Object.keys(labels).forEach(key => {
-                    if (this.selections[key]) {
-                        params += `• ${labels[key]}: ${this.selections[key]}\n`;
-                    }
-                });
+
+                if (this.selections.genre && this.selections.genre.length > 0) {
+                    params += `• Genre / Sub-Genre: ${this.selections.genre.join(' + ')}\n`;
+                }
+                if (this.selections.budget) {
+                    params += `• Budget Range: ${this.selections.budget}\n`;
+                }
+                if (this.selections.concept) {
+                    params += `• High-Concept Level: ${this.selections.concept}\n`;
+                }
 
                 return `Here are my creative parameters:
 ${params}
@@ -2312,7 +2363,7 @@ Explain why this idea can be produced on a contained or mid-budget scale, uses l
             },
 
             clearAll() {
-                this.selections = {};
+                this.selections = { genre: [] };
                 document.querySelectorAll('.forge-tag.selected').forEach(t => t.classList.remove('selected'));
                 document.getElementById('forge-result').classList.remove('active');
                 this.hideError();
@@ -2323,20 +2374,47 @@ Explain why this idea can be produced on a contained or mid-budget scale, uses l
             async saveToVault() {
                 if (!this.lastRaw) return;
 
-                // Try to extract title and logline from raw output
+                // Extract title from output
                 const titleMatch = this.lastRaw.match(/(?:WORKING TITLE|Title)[:\s]*["']?([^"'\n]+)["']?/i);
-                const loglineMatch = this.lastRaw.match(/(?:LOGLINE|logline)[:\s]*(.+?)(?:\n\n|\n[A-Z])/is);
+                const title = titleMatch ? titleMatch[1].replace(/[*#"']/g, '').trim() : 'Untitled Forge Concept';
 
-                const title = titleMatch ? titleMatch[1].trim() : 'Untitled Forge Concept';
-                const logline = loglineMatch ? loglineMatch[1].trim() : '';
+                // Extract logline — look for the content after STEP 4
+                let logline = '';
+                const loglineSection = this.lastRaw.match(/STEP 4[^]*?LOGLINE[^]*?\n([\s\S]*?)(?=\n\n(?:WORKING|STEP 5)|$)/i);
+                if (loglineSection) {
+                    logline = loglineSection[1].trim().substring(0, 300);
+                } else {
+                    const simpleLM = this.lastRaw.match(/(?:LOGLINE)[:\s]*(.+?)(?:\n\n)/is);
+                    if (simpleLM) logline = simpleLM[1].trim();
+                }
+
+                // Use selected genre or extract from output
+                const genre = (this.selections.genre && this.selections.genre.length > 0)
+                    ? this.selections.genre[0]
+                    : 'Other';
+
+                // Parse all 7 steps into sections for detailed view
+                const parsed = this.parseSteps(this.lastRaw);
+                const sections = {};
+                if (parsed) {
+                    parsed.forEach(step => {
+                        if (step.num === '1') sections.sources = step.content;
+                        if (step.num === '2') sections.logic = step.content;
+                        if (step.num === '3') sections.architecture = step.content;
+                        if (step.num === '4') sections.logline = step.content;
+                        if (step.num === '5') sections.three_act = step.content;
+                        if (step.num === '6') sections.theme = step.content;
+                        if (step.num === '7') sections.production = step.content;
+                    });
+                }
 
                 const data = {
                     title: title,
-                    genre: 'Other',
+                    genre: genre,
                     status: 'Raw',
-                    logline: logline,
+                    logline: logline || (sections.logline ? sections.logline.substring(0, 300) : ''),
                     concept: this.lastRaw,
-                    sections: {},
+                    sections: sections,
                     updated_at: new Date().toISOString()
                 };
 
